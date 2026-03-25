@@ -1,0 +1,65 @@
+{
+  // --- Interface e Experiência Visual ---
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.fontSize": 16,
+  "editor.lineHeight": 1.8,
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontLigatures": true,
+  "editor.minimap.enabled": false,
+  "editor.scrollbar.vertical": "hidden",
+  "editor.stickyScroll.enabled": false,
+  "editor.renderLineHighlight": "gutter",
+  "editor.rulers": [80, 120],
+  "workbench.activityBar.location": "hidden",
+  "workbench.statusBar.visible": false,
+  "workbench.layoutControl.enabled": false,
+  "window.commandCenter": false,
+  "window.titleBarStyle": "native",
+  "explorer.compactFolders": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+
+  // --- JavaScript / TypeScript Configs ---
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.tabSize": 2,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  "javascript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
+  // --- Python Configs ---
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
+  },
+  "python.analysis.typeCheckingMode": "basic",
+
+  // --- Organização e Extensões ---
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": ".eslint*, eslint.config.*, formatter*, prettier*, tsconfig*, vite*, pnpm-*, bun.lockb, nest*, package-lock*",
+    "requirements.txt": "setup.cfg, tox.ini, .pytest_cache, .venv, pyproject.toml, poetry.lock",
+    ".env": ".env*"
+  },
+  "files.associations": {
+    ".env.*": "dotenv",
+    "*.css": "postcss",
+    "*.ndjson": "jsonl"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": false
+  },
+  "cSpell.language": "en,pt",
+  "extensions.ignoreRecommendations": true,
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "GitHub Dark Default"
+}
