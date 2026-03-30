@@ -10,25 +10,17 @@
   "editor.stickyScroll.enabled": false,
   "editor.renderLineHighlight": "gutter",
   "editor.rulers": [80, 120],
+  
   "workbench.activityBar.location": "hidden",
+  "workbench.editor.showTabs": "single",
   "workbench.statusBar.visible": false,
   "workbench.layoutControl.enabled": false,
+  "breadcrumbs.enabled": false,
   "window.commandCenter": false,
   "window.titleBarStyle": "native",
-  "explorer.compactFolders": false,
+  "explorer.compactFolders": true,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
-
-  // --- JavaScript / TypeScript Configs ---
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
-    "editor.tabSize": 2,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
-  },
-  "javascript.suggest.autoImports": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
 
   // --- Python Configs ---
   "[python]": {
@@ -60,6 +52,9 @@
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
   "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.colorTheme": "GitHub Dark Default"
+  "workbench.iconTheme": "symbols",
+  "workbench.colorTheme": "Oscura Dusk",
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "redhat.telemetry.enabled": false
 }
