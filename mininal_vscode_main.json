@@ -1,60 +1,208 @@
 {
-  // --- Interface e Experiência Visual ---
-  "workbench.startupEditor": "newUntitledFile",
-  "editor.fontSize": 16,
-  "editor.lineHeight": 1.8,
-  "editor.fontFamily": "JetBrains Mono",
-  "editor.fontLigatures": true,
-  "editor.minimap.enabled": false,
-  "editor.scrollbar.vertical": "hidden",
-  "editor.stickyScroll.enabled": false,
-  "editor.renderLineHighlight": "gutter",
-  "editor.rulers": [80, 120],
-  
-  "workbench.activityBar.location": "hidden",
-  "workbench.editor.showTabs": "single",
-  "workbench.statusBar.visible": false,
-  "workbench.layoutControl.enabled": false,
-  "breadcrumbs.enabled": false,
-  "window.commandCenter": false,
-  "window.titleBarStyle": "native",
-  "explorer.compactFolders": true,
-  "explorer.confirmDelete": false,
-  "explorer.confirmDragAndDrop": false,
-
-  // --- Python Configs ---
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    // ─── Interface & Visual ───
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.activityBar.location": "hidden",
+    "workbench.editor.showTabs": "single",
+    "workbench.statusBar.visible": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Tokyo Night",
+    "editor.fontSize": 16,
+    "editor.lineHeight": 1.8,
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": true,
+    "editor.minimap.enabled": false,
+    "editor.scrollbar.vertical": "hidden",
+    "editor.scrollbar.horizontal": "hidden",
+    "editor.stickyScroll.enabled": false,
+    "editor.renderLineHighlight": "gutter",
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.guides.bracketPairs": "active",
+    "editor.guides.indentation": false,
+    "editor.cursorBlinking": "phase",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.smoothScrolling": true,
+    "editor.overviewRulerBorder": false,
+    "breadcrumbs.enabled": false,
+    "window.commandCenter": false,
+    "window.titleBarStyle": "native",
+    "window.title": "${rootName}${separator}${activeEditorShort}",
+    // ─── Editor Behavior ───
     "editor.formatOnSave": true,
-    "editor.tabSize": 4
-  },
-  "python.analysis.typeCheckingMode": "basic",
-
-  // --- Organização e Extensões ---
-  "explorer.fileNesting.enabled": true,
-  "explorer.fileNesting.patterns": {
-    "package.json": ".eslint*, eslint.config.*, formatter*, prettier*, tsconfig*, vite*, pnpm-*, bun.lockb, nest*, package-lock*",
-    "requirements.txt": "setup.cfg, tox.ini, .pytest_cache, .venv, pyproject.toml, poetry.lock",
-    ".env": ".env*"
-  },
-  "files.associations": {
-    ".env.*": "dotenv",
-    "*.css": "postcss",
-    "*.ndjson": "jsonl"
-  },
-  "files.exclude": {
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/node_modules": false
-  },
-  "cSpell.language": "en,pt",
-  "extensions.ignoreRecommendations": true,
-  "terminal.integrated.fontSize": 14,
-  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
-  "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "workbench.iconTheme": "symbols",
-  "workbench.colorTheme": "Oscura Dusk",
-  "git.autofetch": true,
-  "git.confirmSync": false,
-  "redhat.telemetry.enabled": false
+    "editor.formatOnPaste": false,
+    "editor.trimAutoWhitespace": true,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.wordWrap": "off",
+    "editor.linkedEditing": true,
+    "editor.suggest.preview": true,
+    "editor.suggest.showStatusBar": true,
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "editor.parameterHints.enabled": false,
+    "editor.hover.delay": 600,
+    "editor.acceptSuggestionOnEnter": "smart",
+    "editor.tabCompletion": "on",
+    "editor.snippetSuggestions": "top",
+    // ─── Vim (VSCodeVim) ───
+    // "vim.enable": true,
+    // "vim.leader": "<space>",
+    // "vim.useSystemClipboard": true,
+    // "vim.hlsearch": true,
+    // "vim.incsearch": true,
+    // "vim.smartcase": true,
+    // "vim.ignorecase": true,
+    // "vim.showcmd": true,
+    // "vim.easymotion": true,
+    // "vim.sneak": true,
+    // "vim.surround": true,
+    // "vim.normalModeKeyBindingsNonRecursive": [
+    //   // File tree toggle (mirrors <leader>e in LazyVim)
+    //   { "before": ["<leader>", "e"], "commands": ["workbench.action.toggleSidebarVisibility"] },
+    //   // Buffer management
+    //   { "before": ["<leader>", "b", "d"], "commands": ["workbench.action.closeActiveEditor"] },
+    //   { "before": ["<leader>", "b", "o"], "commands": ["workbench.action.closeOtherEditors"] },
+    //   // Fuzzy find (mirrors <leader>ff, <leader>fg)
+    //   { "before": ["<leader>", "f", "f"], "commands": ["workbench.action.quickOpen"] },
+    //   { "before": ["<leader>", "f", "g"], "commands": ["workbench.action.findInFiles"] },
+    //   { "before": ["<leader>", "f", "r"], "commands": ["workbench.action.openRecent"] },
+    //   // LSP (mirrors LazyVim defaults)
+    //   { "before": ["g", "d"], "commands": ["editor.action.revealDefinition"] },
+    //   { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] },
+    //   { "before": ["g", "i"], "commands": ["editor.action.goToImplementation"] },
+    //   { "before": ["g", "h"], "commands": ["editor.action.showDefinitionPreviewHover"] },
+    //   { "before": ["<leader>", "c", "a"], "commands": ["editor.action.quickFix"] },
+    //   { "before": ["<leader>", "c", "r"], "commands": ["editor.action.rename"] },
+    //   { "before": ["<leader>", "c", "d"], "commands": ["workbench.actions.view.problems"] },
+    //   // Diagnostics navigation
+    //   { "before": ["]", "d"], "commands": ["editor.action.marker.next"] },
+    //   { "before": ["[", "d"], "commands": ["editor.action.marker.prev"] },
+    //   // Terminal toggle
+    //   { "before": ["<leader>", "t", "t"], "commands": ["workbench.action.terminal.toggleTerminal"] },
+    //   // Format
+    //   { "before": ["<leader>", "m", "f"], "commands": ["editor.action.formatDocument"] },
+    //   // Clear search highlight
+    //   { "before": ["<leader>", "h"], "commands": [":nohlsearch"] }
+    // ],
+    // ─── Rust ───
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.check.allTargets": true,
+    "rust-analyzer.cargo.features": "all",
+    "rust-analyzer.inlayHints.bindingModeHints.enable": false,
+    "rust-analyzer.inlayHints.chainingHints.enable": true,
+    "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "with_block",
+    "rust-analyzer.inlayHints.typeHints.enable": true,
+    "rust-analyzer.inlayHints.parameterHints.enable": false, // ruído em funções simples
+    "rust-analyzer.lens.enable": true,
+    "rust-analyzer.lens.run.enable": true,
+    "rust-analyzer.lens.debug.enable": true,
+    "rust-analyzer.lens.implementations.enable": false, // muito verboso
+    "rust-analyzer.completion.autoimport.enable": true,
+    "rust-analyzer.completion.postfix.enable": true,
+    "rust-analyzer.hover.actions.enable": true,
+    "rust-analyzer.procMacro.enable": true,
+    "rust-analyzer.diagnostics.experimental.enable": true,
+    // ─── Python ───
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit"
+        }
+    },
+    "python.analysis.typeCheckingMode": "standard",
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.inlayHints.variableTypes": false,
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.callArgumentNames": "off",
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "ruff.lint.enable": true,
+    "ruff.format.enable": true,
+    // ─── JavaScript / TypeScript ───
+    "[javascript][typescript][javascriptreact][typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.tabSize": 2,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit",
+            "source.organizeImports": "explicit"
+        }
+    },
+    "javascript.suggest.autoImports": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "typescript.preferences.importModuleSpecifier": "relative",
+    // ─── Terminal ───
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.persistentSessionReviveProcess": "never",
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.tabs.enabled": true,
+    // ─── Explorer & Files ───
+    "explorer.compactFolders": true,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "Cargo.toml": "Cargo.lock, .cargo, rust-toolchain.toml, rustfmt.toml, clippy.toml, deny.toml",
+        "pyproject.toml": "uv.lock, poetry.lock, .python-version, setup.cfg, tox.ini, .pytest_cache, mypy.ini, .mypy_cache, ruff.toml",
+        "requirements.txt": "requirements-*.txt, constraints.txt",
+        "package.json": ".eslint*, eslint.config.*, prettier*, tsconfig*, vite*, pnpm-*, bun.lockb, package-lock*",
+        ".env": ".env*, .envrc"
+    },
+    "files.associations": {
+        ".env.*": "dotenv",
+        "*.css": "postcss",
+        "*.ndjson": "jsonl",
+        "Cargo.lock": "toml",
+        "*.rs": "rust"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/__pycache__": true,
+        "**/.mypy_cache": true,
+        "**/.ruff_cache": true,
+        "**/target": false,
+        "**/node_modules": false
+    },
+    "files.watcherExclude": {
+        "**/target/**": true,
+        "**/.git/**": true,
+        "**/node_modules/**": true,
+        "**/__pycache__/**": true
+    },
+    "search.exclude": {
+        "**/target": true,
+        "**/node_modules": true,
+        "**/__pycache__": true,
+        "**/.mypy_cache": true
+    },
+    // ─── Git ───
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "git.openRepositoryInParentFolders": "always",
+    "diffEditor.ignoreTrimWhitespace": false,
+    // ─── Misc ───
+    "cSpell.language": "en,pt",
+    "extensions.ignoreRecommendations": true,
+    "redhat.telemetry.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "update.mode": "manual",
+    "security.workspace.trust.enabled": false
 }
