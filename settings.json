@@ -1,13 +1,17 @@
 {
-    // ─── Interface & Visual ───
+    // ─── Interface & Visual ──────────────────────────────────────────────────
     "workbench.startupEditor": "newUntitledFile",
     "workbench.activityBar.location": "hidden",
-    "workbench.editor.showTabs": "single",
+    "workbench.editor.showTabs": "multiple",
+    "workbench.editor.labelFormat": "short",
     "workbench.statusBar.visible": false,
     "workbench.layoutControl.enabled": false,
-    "workbench.secondarySideBar.defaultVisibility": "hidden",
     "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "Tokyo Night",
+    // ─── Performance & Search ──────────────────────────────────────────────────
+    "workbench.enableExperiments": false,
+    "workbench.settings.enableNaturalLanguageSearch": false,
+    // ─── Editor Visuals ────────────────────────────────────────────────────────
     "editor.fontSize": 16,
     "editor.lineHeight": 1.8,
     "editor.fontFamily": "JetBrains Mono",
@@ -23,15 +27,17 @@
     ],
     "editor.guides.bracketPairs": "active",
     "editor.guides.indentation": false,
-    "editor.cursorBlinking": "phase",
-    "editor.cursorSmoothCaretAnimation": "on",
-    "editor.smoothScrolling": true,
+    "editor.cursorBlinking": "solid",
+    "editor.cursorSmoothCaretAnimation": "off",
+    "editor.smoothScrolling": false,
+    "workbench.list.smoothScrolling": false,
     "editor.overviewRulerBorder": false,
     "breadcrumbs.enabled": false,
     "window.commandCenter": false,
     "window.titleBarStyle": "native",
     "window.title": "${rootName}${separator}${activeEditorShort}",
-    // ─── Editor Behavior ───
+    "editor.lineNumbers": "relative",
+    // ─── Editor Behavior ─────────────────────────────────────────────────────
     "editor.formatOnSave": true,
     "editor.formatOnPaste": false,
     "editor.trimAutoWhitespace": true,
@@ -47,47 +53,338 @@
     "editor.acceptSuggestionOnEnter": "smart",
     "editor.tabCompletion": "on",
     "editor.snippetSuggestions": "top",
-    // ─── Vim (VSCodeVim) ───
-    // "vim.enable": true,
-    // "vim.leader": "<space>",
-    // "vim.useSystemClipboard": true,
-    // "vim.hlsearch": true,
-    // "vim.incsearch": true,
-    // "vim.smartcase": true,
-    // "vim.ignorecase": true,
-    // "vim.showcmd": true,
-    // "vim.easymotion": true,
-    // "vim.sneak": true,
-    // "vim.surround": true,
-    // "vim.normalModeKeyBindingsNonRecursive": [
-    //   // File tree toggle (mirrors <leader>e in LazyVim)
-    //   { "before": ["<leader>", "e"], "commands": ["workbench.action.toggleSidebarVisibility"] },
-    //   // Buffer management
-    //   { "before": ["<leader>", "b", "d"], "commands": ["workbench.action.closeActiveEditor"] },
-    //   { "before": ["<leader>", "b", "o"], "commands": ["workbench.action.closeOtherEditors"] },
-    //   // Fuzzy find (mirrors <leader>ff, <leader>fg)
-    //   { "before": ["<leader>", "f", "f"], "commands": ["workbench.action.quickOpen"] },
-    //   { "before": ["<leader>", "f", "g"], "commands": ["workbench.action.findInFiles"] },
-    //   { "before": ["<leader>", "f", "r"], "commands": ["workbench.action.openRecent"] },
-    //   // LSP (mirrors LazyVim defaults)
-    //   { "before": ["g", "d"], "commands": ["editor.action.revealDefinition"] },
-    //   { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] },
-    //   { "before": ["g", "i"], "commands": ["editor.action.goToImplementation"] },
-    //   { "before": ["g", "h"], "commands": ["editor.action.showDefinitionPreviewHover"] },
-    //   { "before": ["<leader>", "c", "a"], "commands": ["editor.action.quickFix"] },
-    //   { "before": ["<leader>", "c", "r"], "commands": ["editor.action.rename"] },
-    //   { "before": ["<leader>", "c", "d"], "commands": ["workbench.actions.view.problems"] },
-    //   // Diagnostics navigation
-    //   { "before": ["]", "d"], "commands": ["editor.action.marker.next"] },
-    //   { "before": ["[", "d"], "commands": ["editor.action.marker.prev"] },
-    //   // Terminal toggle
-    //   { "before": ["<leader>", "t", "t"], "commands": ["workbench.action.terminal.toggleTerminal"] },
-    //   // Format
-    //   { "before": ["<leader>", "m", "f"], "commands": ["editor.action.formatDocument"] },
-    //   // Clear search highlight
-    //   { "before": ["<leader>", "h"], "commands": [":nohlsearch"] }
-    // ],
-    // ─── Rust ───
+    "editor.lightbulb.enabled": "off",
+    "editor.codeActionsOnSaveTimeout": 3000,
+    // ─── Vim (VSCodeVim) ─────────────────────────────────────────────────────
+    "vim.enable": true,
+    "vim.leader": "<space>",
+    "vim.useSystemClipboard": true,
+    "vim.hlsearch": true,
+    "vim.incsearch": true,
+    "vim.smartcase": true,
+    "vim.ignorecase": true,
+    "vim.showcmd": true,
+    "vim.easymotion": true,
+    "vim.sneak": true,
+    "vim.surround": true,
+    "vim.handleKeys": {
+        "<C-f>": false,
+        "<C-z>": false
+    },
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "e"
+            ],
+            "commands": [
+                "workbench.action.toggleSidebarVisibility"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "b",
+                "d"
+            ],
+            "commands": [
+                "workbench.action.closeActiveEditor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "b",
+                "o"
+            ],
+            "commands": [
+                "workbench.action.closeOtherEditors"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "b",
+                "n"
+            ],
+            "commands": [
+                "workbench.action.nextEditor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "b",
+                "p"
+            ],
+            "commands": [
+                "workbench.action.previousEditor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f",
+                "g"
+            ],
+            "commands": [
+                "workbench.action.findInFiles"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f",
+                "r"
+            ],
+            "commands": [
+                "workbench.action.openRecent"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "d"
+            ],
+            "commands": [
+                "editor.action.revealDefinition"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "r"
+            ],
+            "commands": [
+                "editor.action.goToReferences"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "i"
+            ],
+            "commands": [
+                "editor.action.goToImplementation"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "h"
+            ],
+            "commands": [
+                "editor.action.showDefinitionPreviewHover"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "D"
+            ],
+            "commands": [
+                "editor.action.peekDefinition"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "a"
+            ],
+            "commands": [
+                "editor.action.quickFix"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "r"
+            ],
+            "commands": [
+                "editor.action.rename"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "d"
+            ],
+            "commands": [
+                "workbench.actions.view.problems"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "s"
+            ],
+            "commands": [
+                "workbench.action.gotoSymbol"
+            ]
+        },
+        {
+            "before": [
+                "]",
+                "d"
+            ],
+            "commands": [
+                "editor.action.marker.next"
+            ]
+        },
+        {
+            "before": [
+                "[",
+                "d"
+            ],
+            "commands": [
+                "editor.action.marker.prev"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "t",
+                "t"
+            ],
+            "commands": [
+                "workbench.action.terminal.toggleTerminal"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "t",
+                "n"
+            ],
+            "commands": [
+                "workbench.action.terminal.new"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "m",
+                "f"
+            ],
+            "commands": [
+                "editor.action.formatDocument"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "h"
+            ],
+            "commands": [
+                ":nohlsearch"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "v"
+            ],
+            "commands": [
+                "workbench.action.splitEditor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "s"
+            ],
+            "commands": [
+                "workbench.action.splitEditorDown"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "h"
+            ],
+            "commands": [
+                "workbench.action.focusLeftGroup"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "l"
+            ],
+            "commands": [
+                "workbench.action.focusRightGroup"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "k"
+            ],
+            "commands": [
+                "workbench.action.focusAboveGroup"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "j"
+            ],
+            "commands": [
+                "workbench.action.focusBelowGroup"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "d"
+            ],
+            "commands": [
+                "workbench.action.closeEditorsInGroup"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "s"
+            ],
+            "commands": [
+                "workbench.view.scm"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "b"
+            ],
+            "commands": [
+                "gitlens.toggleFileBlame"
+            ]
+        }
+    ],
+    // ─── Rust ─────────────────────────────────────────────────────────────────
     "[rust]": {
         "editor.defaultFormatter": "rust-lang.rust-analyzer",
         "editor.formatOnSave": true,
@@ -103,17 +400,18 @@
     "rust-analyzer.inlayHints.chainingHints.enable": true,
     "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "with_block",
     "rust-analyzer.inlayHints.typeHints.enable": true,
-    "rust-analyzer.inlayHints.parameterHints.enable": false, // ruído em funções simples
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
     "rust-analyzer.lens.enable": true,
     "rust-analyzer.lens.run.enable": true,
     "rust-analyzer.lens.debug.enable": true,
-    "rust-analyzer.lens.implementations.enable": false, // muito verboso
+    "rust-analyzer.lens.implementations.enable": false,
     "rust-analyzer.completion.autoimport.enable": true,
     "rust-analyzer.completion.postfix.enable": true,
     "rust-analyzer.hover.actions.enable": true,
     "rust-analyzer.procMacro.enable": true,
     "rust-analyzer.diagnostics.experimental.enable": true,
-    // ─── Python ───
+    "rust-analyzer.files.watcher": "server",
+    // ─── Python ───────────────────────────────────────────────────────────────
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
@@ -132,9 +430,9 @@
     "python.terminal.activateEnvInCurrentTerminal": true,
     "ruff.lint.enable": true,
     "ruff.format.enable": true,
-    // ─── JavaScript / TypeScript ───
+    // ─── JavaScript / TypeScript ──────────────────────────────────────────────
     "[javascript][typescript][javascriptreact][typescriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.tabSize": 2,
         "editor.codeActionsOnSave": {
             "source.fixAll.eslint": "explicit",
@@ -145,14 +443,17 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.updateImportsOnFileMove.enabled": "always",
     "typescript.preferences.importModuleSpecifier": "relative",
-    // ─── Terminal ───
+    "typescript.tsserver.maxTsServerMemory": 4096,
+    "typescript.disableAutomaticTypeAcquisition": false,
+    // ─── Terminal ─────────────────────────────────────────────────────────────
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.persistentSessionReviveProcess": "never",
     "terminal.integrated.defaultProfile.linux": "zsh",
     "terminal.integrated.tabs.enabled": true,
-    // ─── Explorer & Files ───
+    "terminal.integrated.gpuAcceleration": "canvas",
+    // ─── Explorer & Files ─────────────────────────────────────────────────────
     "explorer.compactFolders": true,
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
@@ -162,14 +463,17 @@
         "pyproject.toml": "uv.lock, poetry.lock, .python-version, setup.cfg, tox.ini, .pytest_cache, mypy.ini, .mypy_cache, ruff.toml",
         "requirements.txt": "requirements-*.txt, constraints.txt",
         "package.json": ".eslint*, eslint.config.*, prettier*, tsconfig*, vite*, pnpm-*, bun.lockb, package-lock*",
-        ".env": ".env*, .envrc"
+        ".env": ".env*, .envrc",
+        ".mise.toml": ".tool-versions"
     },
     "files.associations": {
         ".env.*": "dotenv",
         "*.css": "postcss",
         "*.ndjson": "jsonl",
         "Cargo.lock": "toml",
-        "*.rs": "rust"
+        "*.rs": "rust",
+        ".mise.toml": "toml",
+        "*.toml": "toml"
     },
     "files.exclude": {
         "**/.git": true,
@@ -184,7 +488,8 @@
         "**/target/**": true,
         "**/.git/**": true,
         "**/node_modules/**": true,
-        "**/__pycache__/**": true
+        "**/__pycache__/**": true,
+        "**/.local/share/mise/**": true
     },
     "search.exclude": {
         "**/target": true,
@@ -192,17 +497,21 @@
         "**/__pycache__": true,
         "**/.mypy_cache": true
     },
-    // ─── Git ───
+    // ─── Git ──────────────────────────────────────────────────────────────────
     "git.autofetch": true,
     "git.confirmSync": false,
     "git.enableSmartCommit": true,
     "git.openRepositoryInParentFolders": "always",
     "diffEditor.ignoreTrimWhitespace": false,
-    // ─── Misc ───
-    "cSpell.language": "en,pt",
-    "extensions.ignoreRecommendations": true,
-    "redhat.telemetry.enabled": false,
+    "git.terminalGitEditor": true,
+    // ─── Telemetry & Misc ─────────────────────────────────────────────────────
     "telemetry.telemetryLevel": "off",
+    "redhat.telemetry.enabled": false,
+    "extensions.ignoreRecommendations": true,
     "update.mode": "manual",
-    "security.workspace.trust.enabled": false
+    "security.workspace.trust.enabled": false,
+    "cSpell.language": "en,pt",
+    "security.workspace.trust.startupPrompt": "never",
+    "security.workspace.trust.banner": "never",
+    "remote.autoForwardPortsSource": "hybrid"
 }
