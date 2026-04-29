@@ -1,151 +1,362 @@
-# VSCode Config — Rust & Python (LazyVim-inspired)
+# zen-dots
 
-A minimal, keyboard-driven VSCode setup tuned for **Rust** and **Python** development. The visual philosophy mirrors [LazyVim](https://lazyvim.org): remove every UI element that doesn't carry information, keep the editor surface clean, and let LSP do the heavy lifting.
+> Keyboard-first. Visually silent. Contextually aware.
+
+Dotfiles para um ambiente de desenvolvimento minimalista e reproduzível.
+Testado em **Arch Linux (WSL2)** e **macOS (ARM)**.
 
 ---
 
-## Requirements
+## Filosofia
 
-| Tool | Purpose |
+Cada ferramenta tem uma responsabilidade única — sem sobreposição:
+
+| Camada | Responsabilidade |
 |---|---|
-| [JetBrains Mono](https://www.jetbrains.com/lp/mono/) | Editor font with ligatures |
-| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/) | Terminal font with icons |
-
-### Required Extensions
-
-| Extension | ID | Role |
-|---|---|---|
-| rust-analyzer | `rust-lang.rust-analyzer` | Rust LSP |
-| Ruff | `charliermarsh.ruff` | Python formatter + linter |
-| Pylance | `ms-python.python` | Python type checking |
-| Material Icon Theme | `pkief.material-icon-theme` | File icons |
-| Tokyo Night | `enkia.tokyo-night` | Color theme |
-
-### Optional — Vim keybindings
-
-| Extension | ID | Role |
-|---|---|---|
-| VSCodeVim | `vscodevim.vim` | Modal editing + LazyVim-like shortcuts |
+| **ZSH** | Ambiente: aliases, pagers, editor, keybinds |
+| **Starship** | Contexto em tempo real: git, runtimes, exit codes, vi-mode |
+| **Mise** | Runtimes: node, python, rust, go |
+| **VS Code** | Editor: LSP, diagnósticos, formatters, Vim motions |
+| **LazyVim** | Editor de terminal: edição rápida, git, arquivos remotos |
+| **Topgrade** | Manutenção: atualiza todo o stack com um comando |
 
 ---
 
-## Installation
+## Estrutura do Repositório
 
-```bash
-# Clone or copy settings.json to your VSCode user config directory
-
-# Linux / macOS
-~/.config/Code/User/settings.json
-
-# Windows
-%APPDATA%\Code\User\settings.json
+```
+zen-dots/
+├── config/
+│   ├── zshrc          → ~/.zshrc
+│   ├── starship.toml  → ~/.config/starship.toml
+│   ├── gitconfig      → ~/.gitconfig
+│   ├── mise.toml      → ~/.config/mise/config.toml
+│   └── topgrade.toml  → ~/.config/topgrade.toml
+└── vscode/
+    └── settings.json  → ~/.config/Code/User/settings.json       (Linux/WSL)
+                       → ~/Library/Application Support/Code/User/ (macOS)
 ```
 
 ---
 
-## Why These Decisions
+## Instalação — Arch Linux (WSL2)
 
-### Interface
+### 0. Pré-requisitos
 
-**Activity bar, tabs, status bar, scrollbar, minimap, breadcrumbs — all hidden.**
-Each of these is a permanent UI fixture that consumes space but requires deliberate interaction to be useful. In a keyboard-driven workflow, you navigate via fuzzy find (`Ctrl+P`), the command palette (`Ctrl+Shift+P`), and LSP jumps (`gd`, `gr`). The sidebar is toggled on demand. Removing static chrome increases the vertical code surface without losing any capability.
-
-**`editor.inlayHints.enabled: "offUnlessPressed"`**
-Inlay hints in Rust are verbose by default — every binding gets a type annotation, every chain gets its return type. This creates visual noise that competes with the actual code. With this setting, hints appear only when you hold `Ctrl+Alt`, mirroring LazyVim's on-demand hint behavior.
-
-**`editor.rulers: [80, 120]`**
-Two soft limits: 80 chars for readability in split-pane view, 120 as the hard ceiling aligned with `rustfmt` defaults. Neither enforces wrapping — they are visual guides only.
+- Windows 11 (WSL 2.4.4+)
+- PowerShell com privilégios de administrador
+- Virtualização habilitada na BIOS
 
 ---
 
-### Rust
+### 1. Instalação do Arch Linux
 
-**`rust-analyzer.check.command: "clippy"`**
-`cargo check` only validates compilation. Clippy catches idiomatic issues: unnecessary clones, suboptimal iterator chains, missing `#[must_use]`, and hundreds of other lints that `check` silently ignores. The trade-off is slightly higher save latency on large projects with heavy proc-macros — acceptable in most cases.
+```powershell
+# PowerShell (Admin)
+wsl --install archlinux
+```
 
-**`rust-analyzer.cargo.features: "all"`**
-Analyzes all feature-gated code simultaneously. Without this, code behind a disabled feature flag appears as dead code and loses type-checking. The downside: higher memory usage on crates with many mutually exclusive features.
+A distribuição abre como root. Defina a senha do root:
 
-**`rust-analyzer.inlayHints.parameterHints.enable: false`**
-Parameter name hints clutter simple function calls where the argument names are already self-documenting (e.g., `Vec::with_capacity(1024)`). Type hints and chaining hints are kept — they provide genuine signal that the source text doesn't repeat.
-
-**`rust-analyzer.lens.implementations.enable: false`**
-The implementations lens duplicates what `gr` (Go to References) already does, with worse ergonomics. It adds a persistent code lens above every trait and struct, which increases visual noise proportional to the size of the codebase.
-
----
-
-### Python
-
-**Ruff instead of Black + isort**
-Ruff reimplements both formatters in Rust. It is 10–100x faster, handles import sorting natively, and is configured through a single `ruff.toml` or `pyproject.toml` entry. If your CI pipeline already enforces `black`, configure Ruff as the linter only and keep `black` as the formatter to avoid formatting disagreements between local and CI.
-
-**`python.analysis.typeCheckingMode: "standard"` instead of `"basic"`**
-`"basic"` mode skips many practical error categories — unbound variables behind Optional chains, missing attributes on narrowed types, and incorrect return types in certain patterns. `"standard"` catches these without the friction of `"strict"`, which requires full annotation coverage to be useful.
+```bash
+passwd
+```
 
 ---
 
-### File Nesting
+### 2. Pacotes base e usuário
 
-Nesting groups related files under their primary entry point, collapsing project root noise:
+```bash
+# Atualizar sistema
+pacman -Syu --noconfirm
 
-- `Cargo.toml` collects `Cargo.lock`, `rust-toolchain.toml`, `rustfmt.toml`, `clippy.toml`
-- `pyproject.toml` collects `uv.lock`, `poetry.lock`, `.python-version`, `ruff.toml`, cache dirs
-- `.env` collects all `.env.*` variants
+# Pacotes base + ferramentas via pacman
+pacman -S --noconfirm --needed \
+  base-devel git curl wget unzip zsh fzf man-db less \
+  eza bat ripgrep fd zoxide git-delta starship lazygit \
+  wl-clipboard neovim
+```
 
-This does not hide files — they are accessible by expanding the parent. It reduces the cognitive load of scanning a project root with 15+ config files.
+Criar usuário com ZSH como shell padrão desde o início:
+
+```bash
+useradd -m -G wheel -s /bin/zsh seu_usuario
+passwd seu_usuario
+echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
+chmod 440 /etc/sudoers.d/wheel
+```
 
 ---
 
-### Watcher & Search Exclusions
+### 3. Locale e `/etc/wsl.conf`
 
-Rust's `target/` directory can contain hundreds of thousands of files after a full build. Without explicit exclusion from the file watcher, VSCode consumes significant CPU monitoring artifact churn during compilation. `target/` is excluded from the watcher and search index but kept visible in the Explorer — you may need to inspect build outputs.
+```bash
+# Locale
+sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+# WSL config
+cat <<EOF > /etc/wsl.conf
+[automount]
+enabled = true
+options = "metadata,umask=22,fmask=11"
+
+[network]
+generateResolvConf = true
+hostname = arch-dev
+
+[interop]
+enabled = true
+appendWindowsPath = false
+
+[user]
+default = seu_usuario
+
+[boot]
+systemd = true
+EOF
+```
+
+Reiniciar para aplicar:
+
+```powershell
+# PowerShell
+wsl --terminate archlinux
+wsl -d archlinux
+```
+
+> A partir daqui, todos os comandos são executados como `seu_usuario`.
 
 ---
 
-## Vim Keybindings (Optional)
+### 4. Mise (runtimes)
 
-> If you prefer modal editing with LazyVim-style shortcuts, install **VSCodeVim** (`vscodevim.vim`) and uncomment the Vim section in `settings.json`.
+```bash
+curl https://mise.run | sh
 
-The commented block includes:
+mkdir -p ~/.config/mise
+cp ~/dotfiles/config/mise.toml ~/.config/mise/config.toml
 
-**Leader key: `Space`** — mirrors LazyVim's default.
+# Ativa mise temporariamente para instalar runtimes
+~/.local/bin/mise install
+```
 
-| Shortcut | Action |
+---
+
+### 5. Tooling via Cargo
+
+Mise já instalou o Rust. Ative o cargo do mise antes de continuar:
+
+```bash
+eval "$(~/.local/bin/mise activate bash)"
+source "$HOME/.cargo/env"
+
+# Ferramentas não disponíveis no pacman oficial
+cargo install yazi-fm topgrade
+```
+
+Dependências do yazi:
+
+```bash
+sudo pacman -S --noconfirm --needed \
+  file unzip jq ffmpegthumbnailer imagemagick
+```
+
+---
+
+### 6. Bat — tema Tokyo Night
+
+```bash
+mkdir -p ~/.config/bat/themes
+curl -o ~/.config/bat/themes/tokyonight_night.tmTheme \
+  https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_night.tmTheme
+bat cache --build
+```
+
+---
+
+### 7. ZSH — Plugins
+
+```bash
+mkdir -p ~/.zsh/plugins
+
+git clone --depth=1 https://github.com/Aloxaf/fzf-tab \
+  ~/.zsh/plugins/fzf-tab
+
+git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions \
+  ~/.zsh/plugins/zsh-autosuggestions
+
+git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting \
+  ~/.zsh/plugins/zsh-syntax-highlighting
+```
+
+---
+
+### 8. Aplicar dotfiles
+
+```bash
+# ZSH
+cp ~/dotfiles/config/zshrc ~/.zshrc
+
+# Starship
+mkdir -p ~/.config
+cp ~/dotfiles/config/starship.toml ~/.config/starship.toml
+
+# Git
+cp ~/dotfiles/config/gitconfig ~/.gitconfig
+
+# Topgrade
+cp ~/dotfiles/config/topgrade.toml ~/.config/topgrade.toml
+
+# VS Code (WSL/Linux)
+mkdir -p ~/.config/Code/User
+cp ~/dotfiles/vscode/settings.json ~/.config/Code/User/settings.json
+```
+
+Recarregar shell:
+
+```bash
+exec zsh
+```
+
+---
+
+### 9. LazyVim
+
+```bash
+# Backup de config existente (se houver)
+mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null || true
+
+# Instalar LazyVim
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+rm -rf ~/.config/nvim/.git
+
+# Abrir nvim — plugins instalam automaticamente na primeira abertura
+nvim
+```
+
+Aplicar tema Tokyo Night em `~/.config/nvim/lua/plugins/colorscheme.lua`:
+
+```lua
+return {
+  {
+    "folke/tokyonight.nvim",
+    opts = { style = "night" },
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = { colorscheme = "tokyonight-night" },
+  },
+}
+```
+
+---
+
+### 10. Verificação do stack
+
+```bash
+mise --version
+starship --version
+nvim --version
+lazygit --version
+eza --version
+bat --version
+rg --version
+fd --version
+delta --version
+topgrade --version
+echo $WAYLAND_DISPLAY   # deve retornar wayland-0 (WSLg injeta automaticamente)
+wl-copy --version       # deve retornar sem erro
+```
+
+---
+
+## Instalação — macOS (ARM)
+
+```bash
+# Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Pacotes base
+brew install git curl fzf zsh neovim \
+  eza bat ripgrep fd zoxide git-delta starship lazygit
+
+# Mise
+curl https://mise.run | sh
+
+mkdir -p ~/.config/mise
+cp ~/dotfiles/config/mise.toml ~/.config/mise/config.toml
+~/.local/bin/mise install
+
+# Cargo (via mise rust)
+eval "$(~/.local/bin/mise activate bash)"
+cargo install yazi-fm topgrade
+
+# Bat tema
+mkdir -p ~/.config/bat/themes
+curl -o ~/.config/bat/themes/tokyonight_night.tmTheme \
+  https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_night.tmTheme
+bat cache --build
+
+# Plugins ZSH (mesmos da seção 7)
+
+# Dotfiles
+cp ~/dotfiles/config/zshrc ~/.zshrc
+cp ~/dotfiles/config/starship.toml ~/.config/starship.toml
+cp ~/dotfiles/config/gitconfig ~/.gitconfig
+cp ~/dotfiles/config/topgrade.toml ~/.config/topgrade.toml
+
+mkdir -p ~/Library/Application\ Support/Code/User
+cp ~/dotfiles/vscode/settings.json \
+  ~/Library/Application\ Support/Code/User/settings.json
+
+# LazyVim (mesmos passos da seção 9)
+exec zsh
+```
+
+---
+
+## Manutenção
+
+```bash
+topgrade              # atualiza tudo: pacman + cargo + mise + plugins ZSH
+topgrade --only cargo
+topgrade --only mise
+```
+
+---
+
+## VS Code — Extensões
+
+```
+rust-lang.rust-analyzer
+charliermarsh.ruff
+esbenp.prettier-vscode
+vscodevim.vim
+PKief.material-icon-theme
+enkia.tokyo-night
+```
+
+---
+
+## Keybindings (VSCodeVim)
+
+| Binding | Ação |
 |---|---|
-| `<leader>e` | Toggle file explorer |
-| `<leader>ff` | Fuzzy find files |
-| `<leader>fg` | Search in files |
-| `<leader>fr` | Recent files |
-| `<leader>bd` | Close current buffer |
-| `<leader>bo` | Close other buffers |
-| `<leader>ca` | Code actions (quick fix) |
-| `<leader>cr` | Rename symbol |
-| `<leader>cd` | Open Problems panel |
+| `<leader>e` | Toggle sidebar |
+| `<leader>ff` | Fuzzy find arquivo |
+| `<leader>fg` | Find in files |
+| `<leader>fr` | Arquivos recentes |
+| `<leader>bd/bn/bp` | Fechar / próximo / anterior buffer |
+| `gd` / `gD` | Go to / Peek definition |
+| `gr` / `gi` / `gh` | References / Implementation / Hover |
+| `<leader>ca/cr/cs` | Code action / Rename / Symbol |
+| `<leader>cd` | Problems panel |
+| `]d` / `[d` | Próximo / anterior diagnóstico |
+| `<leader>wv/ws` | Split vertical / horizontal |
+| `<leader>wh/l/k/j` | Navegar entre splits |
+| `<leader>tt/tn` | Toggle / novo terminal |
 | `<leader>mf` | Format document |
-| `<leader>tt` | Toggle terminal |
+| `<leader>gs` | Source Control view |
 | `<leader>h` | Clear search highlight |
-| `gd` | Go to definition |
-| `gr` | Go to references |
-| `gi` | Go to implementation |
-| `gh` | Hover documentation |
-| `]d` / `[d` | Next / previous diagnostic |
-
-Plugins enabled when VSCodeVim is active:
-- **EasyMotion** — jump to any visible character with `<leader><leader>` prefix
-- **Sneak** — two-character search motion (`s{char}{char}`)
-- **Surround** — `ys`, `cs`, `ds` for adding/changing/deleting surrounding pairs
-
-To activate, uncomment the `// ─── Vim (VSCodeVim) ───` block in `settings.json` and reload the window.
-
----
-
-## Trade-offs and Known Issues
-
-| Decision | Gain | Cost |
-|---|---|---|
-| Clippy on save | Catches idiomatic issues early | Higher latency on large crates with proc-macros |
-| `features: "all"` in rust-analyzer | Full analysis across feature flags | Higher memory usage |
-| Ruff as formatter | Speed, single tool | Conflicts with existing `black`-based CI |
-| `typeCheckingMode: "standard"` | Catches real bugs | May surface errors in unannotated legacy code |
-| Inlay hints off by default | Clean editor surface | Requires manual toggle to inspect types |
-| `security.workspace.trust.enabled: false` | Removes trust prompt noise | Runs all workspace settings without confirmation |
