@@ -1,0 +1,14 @@
+# zen-dots — mise config
+# Runtimes gerenciados globalmente
+# Starship lê o contexto ativo do mise para exibir versões no prompt
+# cargo install (tooling) roda APÓS mise install — usa o rust do mise
+
+[tools]
+node   = "lts"
+python = "3.13"
+rust   = "stable"
+go     = "latest"
+
+[settings]
+jobs         = 4
+experimental = true
