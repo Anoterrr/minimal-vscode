@@ -1,6 +1,3 @@
-# zen-dots — gitconfig
-# Aplica: cp ~/dotfiles/config/gitconfig ~/.gitconfig
-
 [core]
 	pager = delta
 
