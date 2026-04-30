@@ -5,9 +5,10 @@ disable    = [
   "snap",
   "flatpak",
   "pip3",
-  "npm",
+  "node",
   "vim",
-  "brew",
+  "brew_formula",
+  "brew_cask",
 ]
  
 [linux]
