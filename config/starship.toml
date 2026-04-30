@@ -1,45 +1,34 @@
-# zen-dots — starship.toml
-#
-# COMPLEMENTARIDADE:
-#   ZSH      → ambiente: aliases, pagers, editor, keybinds
-#   Starship → contexto: git, runtimes ativos, exit codes, vi-mode
-#   VS Code  → LSP, diagnósticos, formatters, splits
-
 format = """
 $directory\
 $git_branch\
 $git_status\
-$git_stash\
 $fill\
 $python\
 $rust\
 $nodejs\
 $golang\
+$java\
 $cmd_duration\
 $line_break\
 $character"""
-
+ 
 add_newline     = true
 command_timeout = 800
-
+ 
 # ─── Diretório ───────────────────────────────────────────────────────────────
-# VS Code exibe path completo no título (window.title)
-# Starship exibe path truncado no prompt — complementares
 [directory]
 style             = "bold #7aa2f7"
 truncation_length = 3
 truncate_to_repo  = true
 read_only         = " 󰌾"
 read_only_style   = "#f7768e"
-
+ 
 # ─── Git ─────────────────────────────────────────────────────────────────────
-# Status bar e activity bar ocultos no VS Code
-# Starship é a única superfície de contexto git no fluxo keyboard-first
 [git_branch]
 format = "[$symbol$branch(:$remote_branch)]($style) "
 symbol = " "
 style  = "#9ece6a"
-
+ 
 [git_status]
 format     = "([$all_status$ahead_behind]($style)) "
 style      = "#e0af68"
@@ -53,59 +42,55 @@ modified   = "! "
 staged     = "+ "
 renamed    = "» "
 deleted    = "✘ "
-
-[git_stash]
-format = "[$symbol$count]($style) "
-symbol = " "
-style  = "#bb9af7"
-
+ 
 # ─── Fill ────────────────────────────────────────────────────────────────────
 [fill]
 symbol = " "
-
+ 
 # ─── Runtimes (via mise) ──────────────────────────────────────────────────────
-# VS Code mostra linguagem do arquivo aberto
-# Starship mostra o runtime ATIVO no diretório — não redundante
 [python]
 format            = "[ ${symbol}(${version})( \\($virtualenv\\))]($style) "
 symbol            = " "
 style             = "#7dcfff"
 detect_extensions = ["py"]
 detect_files      = ["pyproject.toml", "requirements.txt", ".python-version", "setup.py"]
-
+ 
 [rust]
 format            = "[ $symbol($version)]($style) "
 symbol            = " "
 style             = "#e0af68"
 detect_files      = ["Cargo.toml"]
 detect_extensions = ["rs"]
-
+ 
 [nodejs]
 format            = "[ $symbol($version)]($style) "
 symbol            = " "
 style             = "#9ece6a"
 detect_files      = ["package.json"]
 detect_extensions = ["js", "ts", "jsx", "tsx"]
-
+ 
 [golang]
 format            = "[ $symbol($version)]($style) "
 symbol            = " "
 style             = "#7dcfff"
 detect_files      = ["go.mod", "go.sum"]
 detect_extensions = ["go"]
-
+ 
+[java]
+format            = "[ $symbol($version)]($style) "
+symbol            = " "
+style             = "#f7768e"
+detect_files      = ["pom.xml", "build.gradle", "build.gradle.kts", ".java-version"]
+detect_extensions = ["java", "kotlin", "groovy"]
+ 
 # ─── Duração ─────────────────────────────────────────────────────────────────
 [cmd_duration]
 min_time          = 2000
 format            = "[$duration]($style) "
 style             = "#565f89"
 show_milliseconds = false
-
+ 
 # ─── Character ───────────────────────────────────────────────────────────────
-# Exit code + vi-mode unificados no $character
-# success_symbol → saída OK + modo insert
-# error_symbol   → saída com erro + modo insert
-# vimcmd_symbol  → modo normal (requer bindkey -v no zshrc)
 [character]
 success_symbol = "[❯](bold #9ece6a)"
 error_symbol   = "[❯](bold #f7768e)"
