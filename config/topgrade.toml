@@ -1,26 +1,19 @@
-# zen-dots — topgrade config
-# Atualiza todo o stack: pacman + cargo + mise + plugins ZSH
-# uso: topgrade
-# uso parcial: topgrade --only cargo
-
 [misc]
 assume_yes = true
 cleanup    = true
 disable    = [
   "snap",
   "flatpak",
-  "pip3",     # mise gerencia Python
-  "npm",      # mise gerencia Node
+  "pip3",
+  "npm",
   "vim",
-  "brew",     # macOS only — no-op no Linux
+  "brew",
 ]
-
+ 
 [linux]
 arch_package_manager = "pacman"
-
+ 
 [git]
-# Atualiza plugins ZSH e o próprio repo de dotfiles
 repos = [
   "~/.zsh/plugins",
-  "~/dotfiles",
 ]
