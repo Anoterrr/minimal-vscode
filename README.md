@@ -28,7 +28,6 @@ Each tool has a single responsibility — no overlap:
 zen-dots/
 ├── config/
 │   ├── zshrc          → ~/.zshrc
-│   ├── starship.toml  → ~/.config/starship.toml
 │   ├── gitconfig      → ~/.gitconfig
 │   ├── mise.toml      → ~/.config/mise/config.toml
 │   └── topgrade.toml  → ~/.config/topgrade.toml
@@ -196,12 +195,15 @@ git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting \
 
 ```bash
 cp ~/dotfiles/config/zshrc ~/.zshrc
-cp ~/dotfiles/config/starship.toml ~/.config/starship.toml
 cp ~/dotfiles/config/gitconfig ~/.gitconfig
 cp ~/dotfiles/config/topgrade.toml ~/.config/topgrade.toml
 
 mkdir -p ~/.config/Code/User
 cp ~/dotfiles/vscode/settings.json ~/.config/Code/User/settings.json
+
+# Apply the official Starship tokyo-night preset
+# This replaces the custom starship.toml — no manual config needed
+starship preset tokyo-night -o ~/.config/starship.toml
 ```
 
 Reload shell:
@@ -393,13 +395,16 @@ git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting \
 
 ```bash
 cp ~/dotfiles/config/zshrc ~/.zshrc
-cp ~/dotfiles/config/starship.toml ~/.config/starship.toml
 cp ~/dotfiles/config/gitconfig ~/.gitconfig
 cp ~/dotfiles/config/topgrade.toml ~/.config/topgrade.toml
 
 mkdir -p ~/Library/Application\ Support/Code/User
 cp ~/dotfiles/vscode/settings.json \
   ~/Library/Application\ Support/Code/User/settings.json
+
+# Apply the official Starship tokyo-night preset
+# This replaces the custom starship.toml — no manual config needed
+starship preset tokyo-night -o ~/.config/starship.toml
 ```
 
 Reload shell:
