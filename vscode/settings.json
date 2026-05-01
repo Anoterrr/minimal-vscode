@@ -1,14 +1,4 @@
 {
-  // ─── COMPLEMENTARIDADE ───────────────────────────────────────────────────
-  //
-  //  VS Code  → LSP, diagnósticos, formatters, Vim motions, splits
-  //  Starship → git status, runtimes ativos, exit codes, vi-mode (terminal)
-  //  ZSH      → aliases, pagers, editor, keybinds do shell
-  //
-  //  Status bar oculta → git branch/LSP status vivem no Starship e em <leader>cd
-  //  Activity bar oculta → navegação via <leader>e e <leader>f*
-  //  Breadcrumbs ocultos → path vive no Starship ($directory)
-
   // ─── Interface ───────────────────────────────────────────────────────────
   "workbench.startupEditor": "newUntitledFile",
   "workbench.activityBar.location": "hidden",
