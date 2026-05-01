@@ -1,7 +1,7 @@
 # ─── PATH ────────────────────────────────────────────────────────────────────
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
-# Re-export essenciais do Windows (appendWindowsPath = false no wsl.conf)
+# Re-export essential Windows interop binaries (appendWindowsPath = false in wsl.conf)
 [[ -n "$WSL_DISTRO_NAME" ]] && export PATH="$PATH:/mnt/c/Windows/System32"
 
 # ─── EDITOR ──────────────────────────────────────────────────────────────────
@@ -22,7 +22,7 @@ export FZF_DEFAULT_OPTS="
   --color=fg:#c0caf5,header:#7aa2f7,info:#7dcfff,pointer:#bb9af7
   --color=marker:#9ece6a,fg+:#c0caf5,prompt:#bb9af7,hl+:#7aa2f7"
 
-# FZF shell integration — registra fzf-file-widget, fzf-history-widget, etc.
+# fzf shell integration — registers fzf-file-widget, fzf-history-widget, etc.
 eval "$(fzf --zsh)"
 
 # ─── HISTORY ─────────────────────────────────────────────────────────────────
@@ -32,13 +32,13 @@ SAVEHIST=100000
 setopt HIST_IGNORE_DUPS HIST_IGNORE_SPACE SHARE_HISTORY EXTENDED_HISTORY
 
 # ─── VI MODE ─────────────────────────────────────────────────────────────────
-# Requerido para vimcmd_symbol do Starship funcionar no terminal
+# Required for Starship vimcmd_symbol to work in the terminal
 bindkey -v
 export KEYTIMEOUT=1
 
 # ─── COMPLETION ──────────────────────────────────────────────────────────────
 autoload -Uz compinit
-# Regenera o compdump apenas uma vez por dia
+# Rebuild compdump only once per day for faster shell startup
 if [[ -n "$HOME/.zcompdump"(#qN.mh+24) ]]; then
   compinit
 else
@@ -46,8 +46,8 @@ else
 fi
 
 # ─── MISE ────────────────────────────────────────────────────────────────────
-# Mise ativa runtimes (rust, node, python, go)
-# Starship lê o contexto do mise para exibir versões no prompt
+# Mise activates runtimes (rust, node, python, go, java)
+# Starship reads the mise context to display runtime versions in the prompt
 eval "$($HOME/.local/bin/mise activate zsh)"
 
 # ─── ALIASES ─────────────────────────────────────────────────────────────────
@@ -69,12 +69,12 @@ alias update-only='topgrade --only'
 eval "$(zoxide init zsh)"
 
 # ─── PLUGINS ─────────────────────────────────────────────────────────────────
-# Ordem obrigatória: fzf-tab antes de syntax-highlighting
+# Load order is mandatory: fzf-tab before syntax-highlighting
 source ~/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# zstyle após plugins para garantir que completions estão registradas
+# zstyle after plugins to ensure completions are registered first
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
@@ -85,4 +85,6 @@ bindkey '^R'   fzf-history-widget
 bindkey '^F'   fzf-file-widget
 
 # ─── STARSHIP ────────────────────────────────────────────────────────────────
+# Starship displays: git, runtimes (mise), exit code, vi-mode, cmd duration
+# ZSH handles: aliases, pagers, editor, clipboard — no overlap
 eval "$(starship init zsh)"
