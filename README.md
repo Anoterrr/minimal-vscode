@@ -99,7 +99,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 cat <<EOF > /etc/wsl.conf
 [automount]
 enabled = true
-options = "metadata,umask=22,fmask=11"
+options = "metadata,uid=1000,gid=1000,umask=022,fmask=011"
 
 [network]
 generateResolvConf = true
