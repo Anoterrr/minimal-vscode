@@ -107,7 +107,7 @@ hostname = arch-dev
 
 [interop]
 enabled = true
-appendWindowsPath = false
+appendWindowsPath = true
 
 [user]
 default = your_username
